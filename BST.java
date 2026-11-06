@@ -6,6 +6,10 @@ public class BST<Key extends Comparable<Key>, Value> {
         private Value val;
         private Node left;
         private Node right;
+        public Node(Key key, Value val) {
+            this.key = key;
+            this.val = val;
+        }
     }
     public BST() {
         root = null;
@@ -30,8 +34,8 @@ public class BST<Key extends Comparable<Key>, Value> {
 
     private Node put(Node x, Key key, Value val) {
         if (x == null) {
+            N++;
             return new Node(key, val);
-            N++
         }
         int cmp = key.compareTo(x.key);
         if (cmp < 0) x.left = put(x.left, key, val);
@@ -52,9 +56,12 @@ public class BST<Key extends Comparable<Key>, Value> {
         return N;
     }
 
+
+
     public static void main(String[] args) {
         BST<Integer, String> bst = new BST<>();
         System.out.println(bst.isEmpty());
+        System.out.println(bst.size());
         bst.put(1, "a");
         bst.put(2, "b");
         bst.put(3, "c");
@@ -64,5 +71,6 @@ public class BST<Key extends Comparable<Key>, Value> {
         System.out.println(bst.isEmpty());
         System.out.println(bst.get(3));
         System.out.println(bst.get(2));
+        System.out.println(bst.contains(5));
     }
 }
