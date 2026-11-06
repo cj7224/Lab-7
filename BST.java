@@ -57,7 +57,11 @@ public class BST<Key extends Comparable<Key>, Value> {
     }
 
     public BST treeify(Key[] keys) {
-        return null;
+        BST<Key, Integer> bst = new BST<>();
+        for (Key key : keys) {
+            bst.put(key, 0);
+        }
+        return bst;
     }
 
     public Node min() {
@@ -88,11 +92,46 @@ public class BST<Key extends Comparable<Key>, Value> {
                 return x.left;
             }
             Node successor = min(x.right);
-            successor.left = x.left;
-            successor.right = x.right;
-            x = successor;
-            delete(min(x.right).key);
+            x.key = successor.key;
+            x.val = successor.val;
+            x.right = delete(x.right, successor.key);
         }
+        return x;
+    }
+
+    public void printKeys() {
+        printKeys(root);
+    }
+
+    private void printKeys(Node x) {
+        if (x == null) return;
+        printKeys(x.left);
+        System.out.println(x.key);
+        printKeys(x.right);
+    }
+
+    public void balance() {
+        Node[] nodes = new BST.Node[N];
+        storeNodes(root, nodes, 0);
+        root = balance(nodes, 0, N - 1);
+    }
+
+    private int storeNodes(Node x, Node[] nodes, int i) {
+        if (x == null) return i;
+
+        i = storeNodes(x.left, nodes, i);
+        nodes[i] = x;
+        i++;
+        return storeNodes(x.right, nodes, i);
+    }
+
+    private Node balance(Node[] nodes, int low, int high) {
+        if (low > high) return null;
+
+        int mid = low + (high - low) / 2;
+        Node x = nodes[mid];
+        x.left = balance(nodes, low, mid - 1);
+        x.right = balance(nodes, mid + 1, high);
         return x;
     }
 
@@ -103,7 +142,7 @@ public class BST<Key extends Comparable<Key>, Value> {
         bst.put(3, "a");
         bst.put(1, "b");
         bst.put(2, "c");
-        bst.put(5, "d");
+        bst.put(5, "e");
         System.out.println(bst.size());
         System.out.println(bst.contains(1));
         System.out.println(bst.contains(2));
@@ -114,5 +153,12 @@ public class BST<Key extends Comparable<Key>, Value> {
         bst.delete(3);
         System.out.println(bst.contains(3));
         System.out.println(bst.size());
+        Integer[] keys = new Integer[5];
+        for (int i = 0; i < keys.length; i++) {
+            keys[i] = i;
+        }
+        System.out.println(bst.treeify(keys));
+        bst.printKeys();
+        bst.balance();
     }
 }
