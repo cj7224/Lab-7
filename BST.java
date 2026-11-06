@@ -1,0 +1,68 @@
+public class BST<Key extends Comparable<Key>, Value> {
+    private Node root;
+    private int N;
+    private class Node {
+        private Key key;
+        private Value val;
+        private Node left;
+        private Node right;
+    }
+    public BST() {
+        root = null;
+        N = 0;
+    }
+
+    public Value get(Key key) {
+        return get(root,key);
+    }
+
+    private Value get(Node x, Key key) {
+        if (x == null) return null;
+        int cmp = key.compareTo(x.key);
+        if (cmp < 0) return get(x.left, key);
+        else if (cmp > 0) return get(x.right, key);
+        else return x.val;
+    }
+
+    public void put(Key key, Value val) {
+        root = put(root, key, val);
+    }
+
+    private Node put(Node x, Key key, Value val) {
+        if (x == null) {
+            return new Node(key, val);
+            N++
+        }
+        int cmp = key.compareTo(x.key);
+        if (cmp < 0) x.left = put(x.left, key, val);
+        else if (cmp > 0) x.right = put(x.right, key, val);
+        else if (cmp == 0) x.val = val;
+        return x;
+    }
+
+    public boolean contains(Key key) {
+        return get(key) != null;
+    }
+
+    public boolean isEmpty() {
+        return root == null;
+    }
+
+    public int size() {
+        return N;
+    }
+
+    public static void main(String[] args) {
+        BST<Integer, String> bst = new BST<>();
+        System.out.println(bst.isEmpty());
+        bst.put(1, "a");
+        bst.put(2, "b");
+        bst.put(3, "c");
+        System.out.println(bst.size());
+        System.out.println(bst.contains(1));
+        System.out.println(bst.contains(2));
+        System.out.println(bst.isEmpty());
+        System.out.println(bst.get(3));
+        System.out.println(bst.get(2));
+    }
+}
