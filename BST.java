@@ -103,7 +103,7 @@ public class BST<Key extends Comparable<Key>, Value> {
         bst.put(3, "a");
         bst.put(1, "b");
         bst.put(2, "c");
-        bst.put(4, "d");
+        bst.put(5, "d");
         System.out.println(bst.size());
         System.out.println(bst.contains(1));
         System.out.println(bst.contains(2));
