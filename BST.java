@@ -56,15 +56,54 @@ public class BST<Key extends Comparable<Key>, Value> {
         return N;
     }
 
+    public BST treeify(Key[] keys) {
+        return null;
+    }
 
+    public Node min() {
+        return min(root);
+    }
+
+    private Node min(Node x) {
+        if (x.left != null) return min(x.left);
+        else return x;
+    }
+
+    public void delete(Key key) {
+        root = delete(root, key);
+    }
+
+    private Node delete(Node x, Key key) {
+        if (x == null) return null;
+        int cmp = key.compareTo(x.key);
+        if (cmp < 0) x.left = delete(x.left, key);
+        else if (cmp > 0) x.right = delete(x.right, key);
+        else {
+            if (x.left == null) {
+                N--;
+                return x.right;
+            }
+            if (x.right == null) {
+                N--;
+                return x.left;
+            }
+            Node successor = min(x.right);
+            successor.left = x.left;
+            successor.right = x.right;
+            x = successor;
+            delete(min(x.right).key);
+        }
+        return x;
+    }
 
     public static void main(String[] args) {
         BST<Integer, String> bst = new BST<>();
         System.out.println(bst.isEmpty());
         System.out.println(bst.size());
-        bst.put(1, "a");
-        bst.put(2, "b");
-        bst.put(3, "c");
+        bst.put(3, "a");
+        bst.put(1, "b");
+        bst.put(2, "c");
+        bst.put(4, "d");
         System.out.println(bst.size());
         System.out.println(bst.contains(1));
         System.out.println(bst.contains(2));
@@ -72,5 +111,8 @@ public class BST<Key extends Comparable<Key>, Value> {
         System.out.println(bst.get(3));
         System.out.println(bst.get(2));
         System.out.println(bst.contains(5));
+        bst.delete(3);
+        System.out.println(bst.contains(3));
+        System.out.println(bst.size());
     }
 }
