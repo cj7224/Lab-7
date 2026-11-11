@@ -59,6 +59,7 @@ public class BST<Key extends Comparable<Key>, Value> {
     public BST treeify(Key[] keys) {
         BST<Key, Integer> bst = new BST<>();
         for (Key key : keys) {
+            if (key  == null) break;
             bst.put(key, 0);
         }
         return bst;
@@ -139,6 +140,9 @@ public class BST<Key extends Comparable<Key>, Value> {
         BST<Integer, String> bst = new BST<>();
         System.out.println(bst.isEmpty());
         System.out.println(bst.size());
+        bst.printKeys();
+        bst.balance();
+        bst.delete(3);
         bst.put(3, "a");
         bst.put(1, "b");
         bst.put(2, "c");
@@ -151,14 +155,18 @@ public class BST<Key extends Comparable<Key>, Value> {
         System.out.println(bst.get(2));
         System.out.println(bst.contains(5));
         bst.delete(3);
+        bst.delete(3);
         System.out.println(bst.contains(3));
         System.out.println(bst.size());
         Integer[] keys = new Integer[5];
+        System.out.println(bst.treeify(keys));
+        bst.treeify(keys).printKeys();
+        bst.printKeys();
         for (int i = 0; i < keys.length; i++) {
             keys[i] = i;
         }
         System.out.println(bst.treeify(keys));
-        bst.printKeys();
+        bst.treeify(keys).printKeys();
         bst.balance();
     }
 }
